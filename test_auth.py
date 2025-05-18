@@ -1,5 +1,9 @@
 from auth import authenticate_user
 
+def test_both_missing_credentials():
+    db = {}
+    assert authenticate_user("", "", db) == "Missing credentials"
+
 def test_missing_credentials():
     db = {}
     assert authenticate_user("", "pass", db) == "Missing credentials"
@@ -17,7 +21,7 @@ def test_invalid_password():
     db = {"user": {"password": "pass", "attempts": 0}}
     assert authenticate_user("user", "wrong", db) == "Invalid password"
     assert db["user"]["attempts"] == 1
-    
+
 def test_success():
     db = {"user": {"password": "pass", "attempts": 1}}
     assert authenticate_user("user", "pass", db) == "Authenticated"
